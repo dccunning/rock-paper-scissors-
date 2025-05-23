@@ -1,32 +1,28 @@
 package io.github.dccunning.enums;
 
+import org.junit.jupiter.api.Test;
 import java.util.Arrays;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MoveSymbolTest {
-    public MoveSymbolTest() {
-        rockVsPaper();
-        rockVsScissors();
-        paperVsScissors();
-        randomSymbolChoice();
+
+    @Test
+    public void rockVsPaper() {
+        assertTrue(MoveSymbol.PAPER.beats(MoveSymbol.ROCK));
     }
 
-    private void rockVsPaper() {
-        assert MoveSymbol.PAPER.beats(MoveSymbol.ROCK);
-        System.out.println("rockVsPaper passed");
+    @Test
+    public void rockVsScissors() {
+        assertTrue(MoveSymbol.ROCK.beats(MoveSymbol.SCISSORS));
     }
 
-    private void rockVsScissors() {
-        assert MoveSymbol.ROCK.beats(MoveSymbol.SCISSORS);
-        System.out.println("rockVsScissors passed");
+    @Test
+    public void paperVsScissors() {
+        assertFalse(MoveSymbol.PAPER.beats(MoveSymbol.SCISSORS));
     }
 
-    private void paperVsScissors() {
-        assert !MoveSymbol.PAPER.beats(MoveSymbol.SCISSORS);
-        System.out.println("paperVsScissors passed");
-    }
-
-    private void randomSymbolChoice() {
-        assert Arrays.asList(MoveSymbol.values()).contains(MoveSymbol.randomChoice());
-        System.out.println("randomSymbolChoice passed");
+    @Test
+    public void randomSymbolChoice() {
+        assertTrue(Arrays.asList(MoveSymbol.values()).contains(MoveSymbol.randomChoice()));
     }
 }

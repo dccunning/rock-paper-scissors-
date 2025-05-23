@@ -35,9 +35,9 @@ jar cfm paper-rock-scissors.jar manifest.txt -C out .
 ```
 
 #### Testing
-Run the `AllTests` class to verify all tests with
+Run all tests
 ```
-java -ea -cp out io.github.dccunning.AllTests
+mvn test
 ```
 
 Add any tests you like to the test classes in `src/test/java/io/github/dccunning/`

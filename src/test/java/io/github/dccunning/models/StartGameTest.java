@@ -2,29 +2,27 @@ package io.github.dccunning.models;
 
 import io.github.dccunning.enums.GameResult;
 import io.github.dccunning.enums.MoveSymbol;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StartGameTest {
-    public StartGameTest() {
-        playerPaperBeatsRock();
-        playerPaperTiesPaper();
-        playerRockLosesToPaper();
-    }
 
-    private void playerPaperBeatsRock() {
+    @Test
+    public void playerPaperBeatsRock() {
         StartGame playerGame = new StartGame(MoveSymbol.PAPER);
-        assert playerGame.playerResultAgainst(MoveSymbol.ROCK) == GameResult.WIN;
-        System.out.println("playerPaperBeatsRock passed");
+        assertEquals(GameResult.WIN, playerGame.playerResultAgainst(MoveSymbol.ROCK));
     }
 
-    private void playerPaperTiesPaper() {
+    @Test
+    public void playerPaperTiesPaper() {
         StartGame playerGame = new StartGame(MoveSymbol.PAPER);
-        assert playerGame.playerResultAgainst(MoveSymbol.PAPER) == GameResult.TIE;
-        System.out.println("playerPaperTiesPaper passed");
+        assertEquals(GameResult.TIE, playerGame.playerResultAgainst(MoveSymbol.PAPER));
     }
 
-    private void playerRockLosesToPaper() {
+    @Test
+    public void playerRockLosesToPaper() {
         StartGame playerGame = new StartGame(MoveSymbol.ROCK);
-        assert playerGame.playerResultAgainst(MoveSymbol.PAPER) == GameResult.LOSE;
-        System.out.println("playerRockLosesToPaper passed");
+        assertEquals(GameResult.LOSE, playerGame.playerResultAgainst(MoveSymbol.PAPER));
     }
 }

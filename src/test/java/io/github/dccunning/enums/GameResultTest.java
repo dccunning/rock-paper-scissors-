@@ -1,27 +1,25 @@
 package io.github.dccunning.enums;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class GameResultTest {
-    public GameResultTest() {
-        gameResultWin();
-        gameResultLose();
-        gameResultTie();
-    }
 
-    private void gameResultWin() {
+    @Test
+    public void gameResultWin() {
         GameResult gameResult = GameResult.WIN;
-        assert gameResult.getMessage().equals("You win!");
-        System.out.println("gameResultWin passed");
+        assertEquals("You win!", gameResult.getMessage());
     }
 
-    private void gameResultLose() {
+    @Test
+    public void gameResultLose() {
         GameResult gameResult = GameResult.LOSE;
-        assert gameResult.getMessage().equals("You lose!");
-        System.out.println("gameResultLose passed");
+        assertEquals("You lose!", gameResult.getMessage());
     }
 
-    private void gameResultTie() {
+    @Test
+    public void gameResultTie() {
         GameResult gameResult = GameResult.TIE;
-        assert !gameResult.getMessage().equals("You tied!");
-        System.out.println("gameResultTie passed");
+        assertNotEquals("You tied!", gameResult.getMessage());
     }
 }
