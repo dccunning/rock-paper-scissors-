@@ -2,42 +2,46 @@ package io.github.dccunning;
 
 import io.github.dccunning.enums.GameResult;
 import io.github.dccunning.enums.MoveSymbol;
-import io.github.dccunning.models.StartGame;
-import io.github.dccunning.models.PlayerScores;
+import io.github.dccunning.models.*;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
+
+import static io.github.dccunning.utils.MoveUtils.moveOptionsString;
 
 public class PlayerVsComputerMain {
     public static void main(String[] args) {
-        System.out.println("Paper Rock Scissors");
-        PlayerScores personScores = new PlayerScores();
+        String displayGameTitle = moveOptionsString(true, " ");
+        System.out.println(displayGameTitle);
+        Scanner input = new Scanner(System.in);
 
-        // Ask the player for an integer number of games to play until they give one. They can also enter 'exit' to end game.
+        System.out.print("Enter players name: ");
+        String humanName = input.nextLine().trim();
+
+        HumanPlayer humanPlayer = new HumanPlayer(humanName, input);
+        ComputerPlayer computerPlayer = new ComputerPlayer("Computer");
+
+        // Ask the human for an integer number of games to play until they give one. They can also enter 'exit' to end game.
         while (true) {
-            System.out.println("Enter the number of games to play (n=): ");
-            Scanner input = new Scanner(System.in);
-
+            System.out.print("Enter the number of games to play: ");
             String numberOfGamesResponse = input.nextLine().trim();
+
             if (numberOfGamesResponse.equalsIgnoreCase("exit")) {return;}
 
             try {
-                int numberOfGames = Integer.parseInt(numberOfGamesResponse);
-                for (int gameNumber = 1; gameNumber <= numberOfGames; gameNumber++) {
+                for (int gameNumber = 1; gameNumber <= Integer.parseInt(numberOfGamesResponse); gameNumber++) {
                     // Computer selects their move at random
-                    MoveSymbol computerMove = MoveSymbol.randomChoice();
+                    MoveSymbol computerMove = computerPlayer.chooseMove(gameNumber);
 
                     // Ask the player for a move until they give one. They can also enter 'exit' to end game.
-                    MoveSymbol playerMove = requestPlayersMove(input, gameNumber);
+                    MoveSymbol playerMove = humanPlayer.chooseMove(gameNumber);
                     if (playerMove == null) {return;}
 
                     // Play the game for the player and update their scores
                     GameResult playerResult = displayPlayerGameResult(playerMove, computerMove);
-                    personScores.updateResult(playerResult);
+                    humanPlayer.getScores().addResult(playerResult);
 
                 }
-                displayFinalPlayerScores(personScores);
+                displayFinalScores(humanPlayer);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Input must be an integer.");
@@ -62,35 +66,16 @@ public class PlayerVsComputerMain {
         return playerResult;
     }
 
-    /**
-     * Request the input for the player's move in the game, require only accepted move symbols.
-     * @param input The scanner input to gather the text response
-     * @param gameNumber the nth game iteration to be displayed
-     * @return The selected game move symbol, null if user exits the game
-     */
-    private static MoveSymbol requestPlayersMove(Scanner input, int gameNumber) {
-        while (true) {
-            System.out.println("Game #" + gameNumber + ": Paper, rock or scissors?");
-            String playerMoveResponse = input.next().trim();
-            if (playerMoveResponse.equalsIgnoreCase("exit")) {return null;}
-            try {
-                return MoveSymbol.valueOf(playerMoveResponse.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                List<String> moveOptions = Arrays.stream(MoveSymbol.values()).map(MoveSymbol::getName).toList();
-                String moveOptionsString = String.join(", ", moveOptions);
-                System.out.println("Enter only " + moveOptionsString + " are valid choices.");
-            }
-        }
-    }
 
     /**
      * Display the players final wins, loses and ties at the end of the game, or on exit.
-     * @param scores The players' scores
+     * @param humanPlayer The player to display scores for
      */
-    private static void displayFinalPlayerScores(PlayerScores scores) {
+    private static void displayFinalScores(Player humanPlayer) {
         System.out.println("Game over");
         System.out.println();
-        System.out.println("Player results:");
+        PlayerScores scores = humanPlayer.getScores();
+        System.out.println(humanPlayer.getName() + "'s results:");
         System.out.println("Wins: " + scores.getWins());
         System.out.println("Losses: " + scores.getLoses());
         System.out.println("Ties: " + scores.getTies());

@@ -15,13 +15,12 @@ public class PlayerScores {
      * Increment one of wins, loses or ties by 1 with the input result
      * @param result game result to update the score with
      */
-    public void updateResult(GameResult result) {
-        if (result == GameResult.WIN) {
-            wins++;
-        } else if (result == GameResult.LOSE) {
-            loses++;
-        } else if (result == GameResult.TIE) {
-            ties++;
+    public void addResult(GameResult result) {
+        switch (result) {
+            case WIN -> wins++;
+            case LOSE -> loses++;
+            case TIE -> ties++;
         }
     }
+
 }
