@@ -5,6 +5,8 @@ import io.github.dccunning.enums.MoveSymbol;
 import io.github.dccunning.models.StartGame;
 import io.github.dccunning.models.PlayerScores;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class PlayerVsComputerMain {
@@ -74,7 +76,9 @@ public class PlayerVsComputerMain {
             try {
                 return MoveSymbol.valueOf(playerMoveResponse.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.println("Only 'paper', 'rock' or 'scissors' are valid choices.");
+                List<String> moveOptions = Arrays.stream(MoveSymbol.values()).map(MoveSymbol::getName).toList();
+                String moveOptionsString = String.join(", ", moveOptions);
+                System.out.println("Enter only " + moveOptionsString + " are valid choices.");
             }
         }
     }
