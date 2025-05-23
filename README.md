@@ -26,7 +26,7 @@ java -jar paper-rock-scissors.jar
 #### Export game as JAR file
 Step 1: Compile the project
 ```
-javac -d out $(find src -name "*.java")
+javac -d out $(find src/main/java -name "*.java")
 ```
 
 Step 2: Package the JAR file
